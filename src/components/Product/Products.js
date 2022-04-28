@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { useNavigate } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = React.useState([]);
@@ -22,6 +23,7 @@ export default function Products() {
         setProducts(data);
       });
   }, []);
+  const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1, m: 1 }}>
       <h1 align="center">OUR PRODUCTS</h1>
@@ -58,7 +60,11 @@ export default function Products() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button sx={{ flexGrow: 1, m: 1 }} variant="contained">
+                  <Button
+                    onClick={() => navigate(`/productDetails/${product.id}`)}
+                    sx={{ flexGrow: 1, m: 1 }}
+                    variant="contained"
+                  >
                     <ArrowCircleRightIcon />
                     Update
                   </Button>
