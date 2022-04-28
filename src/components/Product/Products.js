@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 export default function Products() {
   const [products, setProducts] = React.useState([]);
   React.useEffect(() => {
-    fetch("product.json")
+    fetch("http://localhost:5000/product")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -61,7 +61,7 @@ export default function Products() {
                 </CardContent>
                 <CardActions>
                   <Button
-                    onClick={() => navigate(`/productDetails/${product.id}`)}
+                    onClick={() => navigate(`/productDetails/${product._id}`)}
                     sx={{ flexGrow: 1, m: 1 }}
                     variant="contained"
                   >

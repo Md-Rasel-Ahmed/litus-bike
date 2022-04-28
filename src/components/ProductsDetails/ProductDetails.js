@@ -10,16 +10,17 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 const ProductDetails = () => {
+  const [product, setProduct] = useState([]);
   const { id } = useParams();
-  console.log(useParams());
   useEffect(() => {
-    fetch("product.json")
+    fetch("http://localhost:5000/product")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        // setProducts(data);
+        const findProduct = data.find((product) => product._id == id);
+        setProduct(findProduct);
       });
   }, [id]);
+
   return (
     <div>
       <Box sx={{ flexGrow: 1, m: 1 }}>
@@ -30,7 +31,7 @@ const ProductDetails = () => {
                 component="img"
                 alt="green iguana"
                 height="200"
-                image=""
+                image={product.img}
               />
 
               <CardContent>
@@ -39,10 +40,12 @@ const ProductDetails = () => {
                   variant="h5"
                   component="div"
                 ></Typography>
-                <Typography variant="body2" color="text.secondary"></Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {product?.name}
+                </Typography>
                 <Typography>
                   {" "}
-                  <strong>Price: </strong>
+                  <strong>Price:{product?.price} </strong>
                 </Typography>
                 <Typography>
                   {" "}
