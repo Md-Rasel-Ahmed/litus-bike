@@ -26,10 +26,10 @@ export default function Products() {
     <Box sx={{ flexGrow: 1, m: 1 }}>
       <h1 align="center">OUR PRODUCTS</h1>
       <Grid container spacing={2}>
-        {products?.map((product) => {
+        {products?.slice(0, 6).map((product) => {
           return (
             <Grid item xs={12} lg={4} md={4} sm={12}>
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ maxWidth: 345, margin: "auto" }}>
                 <CardMedia
                   component="img"
                   alt="green iguana"

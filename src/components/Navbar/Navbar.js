@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../../img/LA-logo-2-1170x435.png";
+import { Link } from "react-router-dom";
 
 const pages = ["HOME", "ABOUT US", "WHAT WE DO", "CONTACT US"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -47,7 +48,6 @@ const Navbar = () => {
           >
             <img width="100px" src={logo} alt="Logo" />
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -103,7 +103,7 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-
+          <Link to="/login">Login</Link>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
