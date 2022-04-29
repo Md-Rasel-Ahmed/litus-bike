@@ -22,7 +22,27 @@ const ProductDetails = () => {
   }, [id, product]);
   // update product
   const handleUpdate = (id) => {
-    let updateQ = product.quantity + 1;
+    let updateQ = product.quantity - 1;
+    let updateQuantity = { quantity: updateQ };
+    fetch(`http://localhost:5000/product/${id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updateQuantity),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+  // Handle reStock alignItems
+  const handleStock = (e, id) => {
+    e.preventDefault();
+    let quantityNumber = parseInt(e.target.number.value);
+    console.log(quantityNumber);
+    console.log(id);
+    let updateQ = product.quantity + quantityNumber;
     let updateQuantity = { quantity: updateQ };
     fetch(`http://localhost:5000/product/${id}`, {
       method: "PUT",
@@ -88,7 +108,15 @@ const ProductDetails = () => {
           </Grid>
           <Grid item xs={12} lg={6} md={6} sm={12}>
             <div align="center" className="homeImg">
-              fd
+              <h3>Re Stock item</h3>
+              <form onSubmit={(e) => handleStock(e, product?._id)}>
+                <input
+                  type="number"
+                  name="number"
+                  placeholder="Quantity Number"
+                />
+                <button type="submit">Stock</button>
+              </form>
             </div>
           </Grid>
         </Grid>
