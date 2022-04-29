@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -121,6 +121,7 @@ const ProductDetails = () => {
           </Grid>
         </Grid>
       </Box>
+      <Link to="/manageProduct">Manage Products</Link>
     </div>
   );
 };

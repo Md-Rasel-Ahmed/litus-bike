@@ -9,6 +9,7 @@ import ProductDetails from "./components/ProductsDetails/ProductDetails";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RequirAuth from "./components/RequrAuth/RequirAuth";
+import ManageProduct from "./components/ManageAllproducts/ManageProduct";
 function App() {
   return (
     <div>
@@ -25,6 +26,10 @@ function App() {
               <ProductDetails></ProductDetails>
             </RequirAuth>
           }
+        ></Route>
+        <Route
+          path="/manageProduct"
+          element={<ManageProduct></ManageProduct>}
         ></Route>
       </Routes>
       <ToastContainer />
