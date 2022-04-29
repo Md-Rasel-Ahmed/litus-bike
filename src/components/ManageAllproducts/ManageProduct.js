@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,40 +50,46 @@ export default function ManageProduct() {
         setProducts(data);
       });
   }, []);
+  //   remove items from
+  const removeItem = (id) => {
+    console.log(id);
+  };
+
   return (
-    <table>
-      <thead>
-        <th>
-          <td>Name</td>
-        </th>
-        <th>
-          <td>Price</td>
-        </th>
-        <th>
-          <td>Quantity</td>
-        </th>
-        <th>
-          <td>Supliar Name</td>
-        </th>
-        <th>
-          <td>Remove </td>
-        </th>
-      </thead>
-      <tbody>
-        {products?.map((product) => {
-          return (
-            <>
-              <tr>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.quantity}</td>
-                <td>Nahida</td>
-                <td>{product.name}</td>
-              </tr>
-            </>
-          );
-        })}
-      </tbody>
-    </table>
+    <>
+      {" "}
+      <h1 align="center">Manage Your Products</h1>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 300 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Product Name</StyledTableCell>
+              <StyledTableCell align="right">Price</StyledTableCell>
+              <StyledTableCell align="right">Quantity</StyledTableCell>
+              <StyledTableCell align="right">Supliar Name</StyledTableCell>
+              <StyledTableCell align="right">Delete</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {products?.map((row) => (
+              <StyledTableRow key={row._id}>
+                <StyledTableCell align="right">{row.name}</StyledTableCell>
+                <StyledTableCell align="right">{row.price}</StyledTableCell>
+                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.sepliarName}
+                </StyledTableCell>
+                <StyledTableCell
+                  onClick={() => removeItem(row._id)}
+                  align="right"
+                >
+                  <DeleteIcon />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
