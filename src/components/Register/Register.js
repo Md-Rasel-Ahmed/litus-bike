@@ -143,7 +143,7 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <a href="" onClick={() => navigate("/login")}>
+                <a onClick={() => navigate("/login")}>
                   Already have an account? Sign in
                 </a>
               </Grid>

@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
@@ -21,12 +21,18 @@ const theme = createTheme();
 export default function Login() {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
-
+  let navigate = useNavigate();
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
   React.useEffect(() => {
     if (error) {
       toast.error(error.message.slice(22, -2));
     }
-  }, [error]);
+    if (user) {
+      navigate(from, { replace: true });
+      toast("Login success!");
+    }
+  }, [error, user]);
 
   // user login handler
   const handleSubmit = async (event) => {
@@ -34,11 +40,7 @@ export default function Login() {
     let pass = event.target.password.value;
     let email = event.target.email.value;
     await signInWithEmailAndPassword(email, pass);
-    if (user) {
-      toast("Login success!");
-    }
   };
-  const navigate = useNavigate();
 
   return (
     <ThemeProvider theme={theme}>
@@ -98,14 +100,14 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link onClick={() => navigate("/register")} variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <a href="" onClick={() => navigate("/register")}>
-                  Don't have an account? Sign Up
-                </a>
+                <Link onClick={() => navigate("/register")} variant="body2">
+                  Don't have an account? Sign
+                </Link>
               </Grid>
             </Grid>
           </Box>
