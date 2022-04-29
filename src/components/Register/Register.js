@@ -19,6 +19,8 @@ const theme = createTheme();
 export default function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
+    let name = event.target.firstName.value;
+    console.log(name);
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
@@ -88,6 +90,17 @@ export default function Register() {
                   fullWidth
                   name="password"
                   label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Confirm Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
