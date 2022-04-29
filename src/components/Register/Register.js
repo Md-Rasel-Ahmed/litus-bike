@@ -13,19 +13,27 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 
 const theme = createTheme();
 
 export default function Register() {
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     let name = event.target.firstName.value;
-    console.log(name);
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    let email = event.target.email.value;
+    let pass = event.target.password.value;
+    console.log(pass);
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
+    createUserWithEmailAndPassword(email, pass);
   };
   const navigate = useNavigate();
   return (
@@ -99,10 +107,10 @@ export default function Register() {
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name="confrimPassword"
                   label="Confirm Password"
                   type="password"
-                  id="password"
+                  id="confrimPassword"
                   autoComplete="new-password"
                 />
               </Grid>

@@ -6,7 +6,8 @@ import Login from "./components/Login/Login";
 import AllPage from "./components/AllPage";
 import Register from "./components/Register/Register";
 import ProductDetails from "./components/ProductsDetails/ProductDetails";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <div>
@@ -21,6 +22,7 @@ function App() {
           element={<ProductDetails></ProductDetails>}
         ></Route>
       </Routes>
+      <ToastContainer />
     </div>
   );
 }
