@@ -13,16 +13,30 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import auth from "../../firebase.init";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 
 const theme = createTheme();
 export default function Login() {
-  const handleSubmit = (event) => {
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error(error.message.slice(22, -2));
+    }
+  }, [error]);
+
+  // user login handler
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    let pass = event.target.password.value;
+    let email = event.target.email.value;
+    await signInWithEmailAndPassword(email, pass);
+    if (user) {
+      toast("Login success!");
+    }
   };
   const navigate = useNavigate();
 

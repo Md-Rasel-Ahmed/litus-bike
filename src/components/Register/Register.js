@@ -15,27 +15,36 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
+import { toast } from "react-toastify";
 
 const theme = createTheme();
 
 export default function Register() {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
+  const [passError, setPassError] = React.useState("");
 
+  React.useEffect(() => {
+    if (error) {
+      toast.error(error.message.slice(22, -2));
+    }
+  }, [error]);
+
+  // Create a user
   const handleSubmit = (event) => {
     event.preventDefault();
-    let name = event.target.firstName.value;
     let email = event.target.email.value;
     let pass = event.target.password.value;
-    console.log(pass);
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
-    createUserWithEmailAndPassword(email, pass);
+    let confirmPass = event.target.confrimPassword.value;
+    if (pass === confirmPass) {
+      createUserWithEmailAndPassword(email, pass);
+      setPassError("");
+    } else {
+      setPassError("Confirm password dosen,t match!");
+    }
   };
   const navigate = useNavigate();
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -104,6 +113,7 @@ export default function Register() {
                 />
               </Grid>
               <Grid item xs={12}>
+                <p style={{ color: "red" }}>{passError}</p>
                 <TextField
                   required
                   fullWidth
