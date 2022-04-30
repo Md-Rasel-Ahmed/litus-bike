@@ -11,16 +11,21 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import GoogleIcon from "@mui/icons-material/Google";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 
 const theme = createTheme();
 export default function Login() {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
+  const [signInWithGoogle, guser, gloading, gerror] = useSignInWithGoogle(auth);
   let navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
@@ -40,6 +45,13 @@ export default function Login() {
     let pass = event.target.password.value;
     let email = event.target.email.value;
     await signInWithEmailAndPassword(email, pass);
+  };
+  // google singin
+  const singinWithGoogle = () => {
+    signInWithGoogle();
+    if (gerror) {
+      console.log(gerror);
+    }
   };
 
   return (
@@ -97,6 +109,14 @@ export default function Login() {
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
+            </Button>
+            <Button
+              onClick={singinWithGoogle}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 1, mb: 2 }}
+            >
+              <GoogleIcon /> Sign In with google
             </Button>
             <Grid container>
               <Grid item xs>

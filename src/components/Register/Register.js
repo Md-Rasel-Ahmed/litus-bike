@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import GoogleIcon from "@mui/icons-material/Google";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -14,8 +15,11 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import auth from "../../firebase.init";
 import { toast } from "react-toastify";
+import { async } from "@firebase/util";
+const provider = new GoogleAuthProvider();
 
 const theme = createTheme();
 
@@ -23,6 +27,8 @@ export default function Register() {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
   const [passError, setPassError] = React.useState("");
+  const navigate = useNavigate();
+  let from = window.location.state?.from?.pathname || "/";
 
   React.useEffect(() => {
     if (error) {
@@ -31,20 +37,24 @@ export default function Register() {
   }, [error]);
 
   // Create a user
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     let email = event.target.email.value;
     let pass = event.target.password.value;
     let confirmPass = event.target.confrimPassword.value;
     if (pass === confirmPass) {
-      createUserWithEmailAndPassword(email, pass);
+      await createUserWithEmailAndPassword(email, pass);
       setPassError("");
+      if (user) {
+        navigate(from, { replace: true });
+        toast("Register success!");
+      }
     } else {
       setPassError("Confirm password dosen,t match!");
     }
   };
-  const navigate = useNavigate();
-
+  // Create a user from google singups
+  const googleSingup = () => {};
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -140,6 +150,14 @@ export default function Register() {
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
+            </Button>
+            <Button
+              onClick={googleSingup}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 1, mb: 2 }}
+            >
+              <GoogleIcon /> Google singup
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

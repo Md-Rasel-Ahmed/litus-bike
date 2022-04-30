@@ -20,7 +20,7 @@ import auth from "../../firebase.init";
 import { Link, useNavigate } from "react-router-dom";
 
 const pages = ["HOME", "ABOUT US", "WHAT WE DO", "CONTACT US"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Manage Item", "Add Item", "My Item", "Dashboard", "Logout"];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -49,6 +49,15 @@ const Navbar = () => {
       signOut(auth).then(() => {
         toast("Singout successfull");
       });
+    }
+    if (targetText === "Manage Item") {
+      navigate("/manageProduct");
+    }
+    if (targetText === "Add Item") {
+      navigate("/addnewitem");
+    }
+    if (targetText === "My Item") {
+      navigate("/myItems");
     }
   };
 
