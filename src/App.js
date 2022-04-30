@@ -45,7 +45,14 @@ function App() {
             </RequirAuth>
           }
         ></Route>
-        <Route path="/myItems" element={<MyItems></MyItems>}></Route>
+        <Route
+          path="/myItems"
+          element={
+            <RequirAuth>
+              <MyItems></MyItems>
+            </RequirAuth>
+          }
+        ></Route>
       </Routes>
       <ToastContainer />
     </div>

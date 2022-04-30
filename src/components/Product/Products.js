@@ -5,28 +5,37 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
+import ReactLoading from "react-loading";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import { useNavigate } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
-    fetch("http://localhost:5000/product")
+    fetch("https://aqueous-harbor-59183.herokuapp.com/product")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         setProducts(data);
+        setLoading(false);
       });
   }, []);
   const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1, m: 1 }}>
       <h1 align="center">OUR PRODUCTS</h1>
+      {loading && (
+        <ReactLoading
+          style={{ margin: "10px auto", height: "100px", width: "50px" }}
+          type={"cylon"}
+          color={"black"}
+          height={100}
+          width={50}
+        />
+      )}
       <Grid container spacing={2}>
         {products?.slice(0, 6).map((product) => {
           return (

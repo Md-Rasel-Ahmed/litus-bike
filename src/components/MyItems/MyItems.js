@@ -8,6 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ReactLoading from "react-loading";
+
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -36,17 +38,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function MyItems() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = React.useState(true);
   const [user] = useAuthState(auth);
   useEffect(() => {
     let loginuserEmail = user.email;
-    fetch("http://localhost:5000/product")
+    fetch("https://aqueous-harbor-59183.herokuapp.com/product")
       .then((res) => res.json())
       .then((data) => {
-        let findUserProduct = data.filter((product) => {
-          product.email == loginuserEmail;
-        });
-        console.log(findUserProduct);
-        setProducts(data);
+        let findUserProduct = data.filter(
+          (product) => product.email == loginuserEmail
+        );
+        setProducts(findUserProduct);
+        setLoading(false);
       });
   }, []);
   //   remove items from
@@ -56,7 +59,7 @@ export default function MyItems() {
       "Are you sure you want to remove this item?"
     );
     if (confirmDialog) {
-      fetch(`http://localhost:5000/product/${id}`, {
+      fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
         method: "DELETE",
       })
         .then((res) => res.json())
@@ -107,6 +110,15 @@ export default function MyItems() {
         </Table>
       </TableContainer>
       <br />
+      {loading && (
+        <ReactLoading
+          style={{ margin: "10px auto", height: "100px", width: "50px" }}
+          type={"cylon"}
+          color={"black"}
+          height={100}
+          width={50}
+        />
+      )}
       <div align="center">
         <Button variant="contained" color="primary">
           <Link

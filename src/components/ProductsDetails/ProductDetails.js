@@ -14,7 +14,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState([]);
   const { id } = useParams();
   useEffect(() => {
-    fetch("http://localhost:5000/product")
+    fetch("https://aqueous-harbor-59183.herokuapp.com/product")
       .then((res) => res.json())
       .then((data) => {
         const findProduct = data.find((product) => product._id == id);
@@ -25,7 +25,7 @@ const ProductDetails = () => {
   const handleUpdate = (id) => {
     let updateQ = product.quantity - 1;
     let updateQuantity = { quantity: updateQ };
-    fetch(`http://localhost:5000/product/${id}`, {
+    fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -45,7 +45,7 @@ const ProductDetails = () => {
     console.log(id);
     let updateQ = product.quantity + quantityNumber;
     let updateQuantity = { quantity: updateQ };
-    fetch(`http://localhost:5000/product/${id}`, {
+    fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
+import { toast } from "react-toastify";
 
 export default function AddNewItem() {
   const [user] = useAuthState(auth);
@@ -25,18 +26,22 @@ export default function AddNewItem() {
       description,
       sepliarName,
     };
-
-    fetch("http://localhost:5000/product", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(newProduct),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    if (name && price && description && img && sepliarName && quantity) {
+      fetch("https://aqueous-harbor-59183.herokuapp.com/product", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(newProduct),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          toast.success("Item added successfully done");
+          e.target.reset();
+        });
+    } else {
+      toast.error("Please a valid input");
+    }
   };
   return (
     <div align="center">
