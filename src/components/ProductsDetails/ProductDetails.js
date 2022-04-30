@@ -8,6 +8,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 const ProductDetails = () => {
   const [product, setProduct] = useState([]);
@@ -109,14 +110,31 @@ const ProductDetails = () => {
           <Grid item xs={12} lg={6} md={6} sm={12}>
             <div align="center" className="homeImg">
               <h3>Re Stock item</h3>
-              <form onSubmit={(e) => handleStock(e, product?._id)}>
-                <input
+              <Box
+                onSubmit={(e) => handleStock(e, product?._id)}
+                component="form"
+                sx={{
+                  "& > :not(style)": { m: 1, width: "25ch" },
+                }}
+                noValidate
+                autoComplete="off"
+              >
+                <TextField
+                  id="standard-basic"
+                  label="Quantity"
                   type="number"
                   name="number"
-                  placeholder="Quantity Number"
+                  variant="standard"
                 />
-                <button type="submit">Stock</button>
-              </form>
+                <br />
+                <Button
+                  type="submit"
+                  sx={{ flexGrow: 1, m: 1 }}
+                  variant="contained"
+                >
+                  Stock
+                </Button>
+              </Box>
             </div>
           </Grid>
         </Grid>

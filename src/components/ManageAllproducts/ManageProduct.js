@@ -8,6 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-toastify";
+import { Button } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -52,7 +54,16 @@ export default function ManageProduct() {
   }, []);
   //   remove items from
   const removeItem = (id) => {
-    console.log(id);
+    fetch(`http://localhost:5000/product/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const remaining = products.filter((product) => product._id !== id);
+        setProducts(remaining);
+        let findDeleteStudent = products.find((student) => student._id == id);
+        toast.error(`${findDeleteStudent.name} has been deleted`);
+      });
   };
 
   return (
@@ -83,7 +94,9 @@ export default function ManageProduct() {
                   onClick={() => removeItem(row._id)}
                   align="right"
                 >
-                  <DeleteIcon />
+                  <Button variant="text" color="error">
+                    <DeleteIcon />
+                  </Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
