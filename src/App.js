@@ -12,6 +12,7 @@ import RequirAuth from "./components/RequrAuth/RequirAuth";
 import ManageProduct from "./components/ManageAllproducts/ManageProduct";
 import AddNewItem from "./components/AddNewItems/AddNewItem";
 import MyItems from "./components/MyItems/MyItems";
+import NotFound from "./components/NotFound";
 function App() {
   return (
     <div>
@@ -53,6 +54,7 @@ function App() {
             </RequirAuth>
           }
         ></Route>
+        <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
       <ToastContainer />
     </div>
