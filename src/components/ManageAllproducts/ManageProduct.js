@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,18 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 export default function ManageProduct() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -53,17 +42,23 @@ export default function ManageProduct() {
       });
   }, []);
   //   remove items from
+
   const removeItem = (id) => {
-    fetch(`http://localhost:5000/product/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const remaining = products.filter((product) => product._id !== id);
-        setProducts(remaining);
-        let findDeleteStudent = products.find((student) => student._id == id);
-        toast.error(`${findDeleteStudent.name} has been deleted`);
-      });
+    let confirmDialog = window.confirm(
+      "Are you sure you want to remove this item?"
+    );
+    if (confirmDialog) {
+      fetch(`http://localhost:5000/product/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const remaining = products.filter((product) => product._id !== id);
+          setProducts(remaining);
+          let findDeleteStudent = products.find((student) => student._id == id);
+          toast.error(`${findDeleteStudent.name} has been deleted`);
+        });
+    }
   };
 
   return (
@@ -103,6 +98,17 @@ export default function ManageProduct() {
           </TableBody>
         </Table>
       </TableContainer>
+      <br />
+      <div align="center">
+        <Button variant="contained" color="primary">
+          <Link
+            style={{ textDecoration: "none", color: "#fff" }}
+            to="/addnewitem"
+          >
+            Add New Item
+          </Link>
+        </Button>
+      </div>
     </>
   );
 }

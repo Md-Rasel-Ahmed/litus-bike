@@ -139,7 +139,17 @@ const ProductDetails = () => {
           </Grid>
         </Grid>
       </Box>
-      <Link to="/manageProduct">Manage Products</Link>
+
+      <div align="center">
+        <Button variant="contained" color="primary">
+          <Link
+            style={{ textDecoration: "none", color: "#fff" }}
+            to="/manageProduct"
+          >
+            Manage Products
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 };
