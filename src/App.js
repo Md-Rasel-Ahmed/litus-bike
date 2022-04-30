@@ -13,6 +13,8 @@ import ManageProduct from "./components/ManageAllproducts/ManageProduct";
 import AddNewItem from "./components/AddNewItems/AddNewItem";
 import MyItems from "./components/MyItems/MyItems";
 import NotFound from "./components/NotFound";
+import Blog from "./components/Blog/Blog";
+import Footer from "./components/Footer/Footer";
 function App() {
   return (
     <div>
@@ -54,9 +56,11 @@ function App() {
             </RequirAuth>
           }
         ></Route>
+        <Route path="/blog" element={<Blog></Blog>}></Route>
         <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
       <ToastContainer />
+      <Footer></Footer>
     </div>
   );
 }

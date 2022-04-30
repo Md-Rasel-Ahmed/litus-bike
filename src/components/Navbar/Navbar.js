@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 import { Link, useNavigate } from "react-router-dom";
 
-const pages = ["HOME", "ABOUT US", "WHAT WE DO", "CONTACT US"];
+const pages = ["HOME", "ABOUT US", "BLOG", "WHAT WE DO", "CONTACT US"];
 const settings = ["Manage Item", "Add Item", "My Item", "Dashboard", "Logout"];
 
 const Navbar = () => {
@@ -39,6 +39,9 @@ const Navbar = () => {
     let targetText = event.target.textContent;
     if (targetText === "HOME") {
       navigate("/");
+    }
+    if (targetText === "BLOG") {
+      navigate("/blog");
     }
   };
 
