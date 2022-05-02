@@ -9,6 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReactLoading from "react-loading";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
@@ -102,6 +104,13 @@ export default function ManageProduct() {
           </TableBody>
         </Table>
       </TableContainer>
+      <div
+        style={{ padding: "10px", display: "flex", justifyContent: "center" }}
+      >
+        <Stack spacing={2}>
+          <Pagination count={10} shape="rounded" />
+        </Stack>
+      </div>
       <br />
       {loading && (
         <ReactLoading

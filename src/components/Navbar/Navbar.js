@@ -163,7 +163,9 @@ const Navbar = () => {
               </Menu>
             </Box>
           ) : (
-            <Link to="/login">Login</Link>
+            <Button variant="contained" onClick={() => navigate("/login")}>
+              Login
+            </Button>
           )}
         </Toolbar>
       </Container>

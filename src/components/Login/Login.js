@@ -21,6 +21,7 @@ import {
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const theme = createTheme();
 export default function Login() {
@@ -41,7 +42,10 @@ export default function Login() {
       navigate(from, { replace: true });
       toast.success("Login success!");
     }
-  }, [error, user, guser]);
+    if (resetError) {
+      toast.error(resetError.message.slice(22, -2));
+    }
+  }, [error, user, guser, resetError]);
 
   // user login handler
   const handleSubmit = async (event) => {
@@ -49,6 +53,9 @@ export default function Login() {
     let pass = event.target.password.value;
     let email = event.target.email.value;
     await signInWithEmailAndPassword(email, pass);
+    const { data } = await axios.post("http://localhost:5000/login", { email });
+    localStorage.setItem("accessToken", data);
+    console.log(data);
   };
   // google singin
   const singinWithGoogle = () => {
@@ -123,11 +130,8 @@ export default function Login() {
             <Grid container>
               <Grid item xs>
                 <Link
-                  onClick={async () => {
-                    await sendPasswordResetEmail(email);
-                    resetError
-                      ? toast.error(resetError.message.slice(22, -2))
-                      : toast.success("Email Sent!");
+                  onClick={() => {
+                    sendPasswordResetEmail(email);
                   }}
                   variant="body2"
                 >
