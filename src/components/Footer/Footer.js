@@ -5,7 +5,14 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 const Footer = () => {
   return (
     <div>
-      <footer style={{ backgroundColor: "#1976D2", color: "#fff" }}>
+      <footer
+        style={{
+          backgroundColor: "#1976D2",
+          color: "#fff",
+          position: "relative",
+          bottom: "-50px",
+        }}
+      >
         <div
           style={{
             display: "flex",

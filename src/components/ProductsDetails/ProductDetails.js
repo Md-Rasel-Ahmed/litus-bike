@@ -23,19 +23,21 @@ const ProductDetails = () => {
   }, [id, product]);
   // update product
   const handleUpdate = (id) => {
-    let updateQ = product.quantity - 1;
-    let updateQuantity = { quantity: updateQ };
-    fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(updateQuantity),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    if (product.quantity > 0) {
+      let updateQ = product.quantity - 1;
+      let updateQuantity = { quantity: updateQ };
+      fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(updateQuantity),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    }
   };
   // Handle reStock alignItems
   const handleStock = (e, id) => {
