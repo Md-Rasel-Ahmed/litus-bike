@@ -14,18 +14,21 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  useCreateUserWithEmailAndPassword,
+  useSendEmailVerification,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { toast } from "react-toastify";
-import { async } from "@firebase/util";
-const provider = new GoogleAuthProvider();
-
 const theme = createTheme();
 
 export default function Register() {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
+  const [signInWithGoogle, guser, gloading, gerror] = useSignInWithGoogle(auth);
+  const [sendEmailVerification] = useSendEmailVerification(auth);
+
   const [passError, setPassError] = React.useState("");
   const navigate = useNavigate();
   let from = window.location.state?.from?.pathname || "/";
@@ -34,7 +37,11 @@ export default function Register() {
     if (error) {
       toast.error(error.message.slice(22, -2));
     }
-  }, [error]);
+    if (guser || user) {
+      navigate(from, { replace: true });
+      toast.success("Register successfully");
+    }
+  }, [error, guser, user]);
 
   // Create a user
   const handleSubmit = async (event) => {
@@ -44,17 +51,16 @@ export default function Register() {
     let confirmPass = event.target.confrimPassword.value;
     if (pass === confirmPass) {
       await createUserWithEmailAndPassword(email, pass);
+      await sendEmailVerification();
       setPassError("");
-      if (user) {
-        navigate(from, { replace: true });
-        toast("Register success!");
-      }
     } else {
       setPassError("Confirm password dosen,t match!");
     }
   };
   // Create a user from google singups
-  const googleSingup = () => {};
+  const googleSingup = () => {
+    signInWithGoogle();
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

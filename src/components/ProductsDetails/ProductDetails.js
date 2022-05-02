@@ -43,21 +43,21 @@ const ProductDetails = () => {
   const handleStock = (e, id) => {
     e.preventDefault();
     let quantityNumber = parseInt(e.target.number.value);
-    console.log(quantityNumber);
-    console.log(id);
-    let updateQ = product.quantity + quantityNumber;
-    let updateQuantity = { quantity: updateQ };
-    fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(updateQuantity),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    if (quantityNumber > 0) {
+      let updateQ = product.quantity + quantityNumber;
+      let updateQuantity = { quantity: updateQ };
+      fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(updateQuantity),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    }
   };
   return (
     <div>

@@ -16,6 +16,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import {
+  useSendPasswordResetEmail,
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
@@ -26,6 +27,9 @@ export default function Login() {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
   const [signInWithGoogle, guser, gloading, gerror] = useSignInWithGoogle(auth);
+  const [sendPasswordResetEmail, sending, resetError] =
+    useSendPasswordResetEmail(auth);
+  const [email, setEmail] = React.useState("");
   let navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
@@ -33,11 +37,11 @@ export default function Login() {
     if (error) {
       toast.error(error.message.slice(22, -2));
     }
-    if (user) {
+    if (user || guser) {
       navigate(from, { replace: true });
-      toast("Login success!");
+      toast.success("Login success!");
     }
-  }, [error, user]);
+  }, [error, user, guser]);
 
   // user login handler
   const handleSubmit = async (event) => {
@@ -49,9 +53,6 @@ export default function Login() {
   // google singin
   const singinWithGoogle = () => {
     signInWithGoogle();
-    if (gerror) {
-      console.log(gerror);
-    }
   };
 
   return (
@@ -82,10 +83,11 @@ export default function Login() {
               margin="normal"
               required
               fullWidth
-              id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               autoFocus
             />
             <TextField
@@ -120,7 +122,15 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link onClick={() => navigate("/register")} variant="body2">
+                <Link
+                  onClick={async () => {
+                    await sendPasswordResetEmail(email);
+                    resetError
+                      ? toast.error(resetError.message.slice(22, -2))
+                      : toast.success("Email Sent!");
+                  }}
+                  variant="body2"
+                >
                   Forgot password?
                 </Link>
               </Grid>
