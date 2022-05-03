@@ -11,7 +11,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ReactLoading from "react-loading";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -39,16 +38,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function ManageProduct() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pageCount, setPageCount] = useState(1);
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    fetch("https://aqueous-harbor-59183.herokuapp.com/product")
+    // let url = "https://aqueous-harbor-59183.herokuapp.com/product";
+    fetch(`http://localhost:5000/product?page=${page}`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
         setLoading(false);
       });
+  }, [page]);
+  useEffect(() => {
+    fetch("http://localhost:5000/productCount")
+      .then((res) => res.json())
+      .then((data) => {
+        let pages = data.count;
+        setPageCount(Math.ceil(pages / 2));
+      });
   }, []);
+  console.log(pageCount);
   //   remove items from
-
+  const handleChange = (event, value) => {
+    setPage(value);
+    console.log(event);
+  };
   const removeItem = (id) => {
     let confirmDialog = window.confirm(
       "Are you sure you want to remove this item?"
@@ -108,7 +122,13 @@ export default function ManageProduct() {
         style={{ padding: "10px", display: "flex", justifyContent: "center" }}
       >
         <Stack spacing={2}>
-          <Pagination count={10} shape="rounded" />
+          <Pagination
+            // onClick={(e) => setPage(e.target.textContent)}
+            page={page}
+            onChange={handleChange}
+            count={pageCount}
+            shape="rounded"
+          />
         </Stack>
       </div>
       <br />
