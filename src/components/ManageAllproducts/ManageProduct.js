@@ -41,34 +41,37 @@ export default function ManageProduct() {
   const [pageCount, setPageCount] = useState(1);
   const [page, setPage] = useState(1);
   useEffect(() => {
-    // let url = "https://aqueous-harbor-59183.herokuapp.com/product";
-    fetch(`http://localhost:5000/product?page=${page}`)
+    let url = `https://aqueous-harbor-59183.herokuapp.com/product?page=${page}`;
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
         setLoading(false);
       });
   }, [page]);
+
   useEffect(() => {
-    fetch("http://localhost:5000/productCount")
+    fetch("https://aqueous-harbor-59183.herokuapp.com/productCount")
       .then((res) => res.json())
       .then((data) => {
         let pages = data.count;
         setPageCount(Math.ceil(pages / 2));
       });
   }, []);
-  console.log(pageCount);
+
+  // pagination handler
+  // const handleChange = (event, value) => {
+  //   setPage(value);
+  //   console.log(event);
+  // };
+
   //   remove items from
-  const handleChange = (event, value) => {
-    setPage(value);
-    console.log(event);
-  };
-  const removeItem = (id) => {
+  const removeItem = async (id) => {
     let confirmDialog = window.confirm(
       "Are you sure you want to remove this item?"
     );
     if (confirmDialog) {
-      fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
+      await fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
         method: "DELETE",
       })
         .then((res) => res.json())
@@ -121,26 +124,27 @@ export default function ManageProduct() {
       <div
         style={{ padding: "10px", display: "flex", justifyContent: "center" }}
       >
+        {loading && (
+          <ReactLoading
+            style={{ margin: "10px auto", height: "100px", width: "50px" }}
+            type={"cylon"}
+            color={"black"}
+            height={100}
+            width={50}
+          />
+        )}
+        <br />
         <Stack spacing={2}>
           <Pagination
-            // onClick={(e) => setPage(e.target.textContent)}
-            page={page}
-            onChange={handleChange}
+            onClick={(e) => setPage(e.target.textContent)}
+            // page={page}
+            // onChange={handleChange}
             count={pageCount}
             shape="rounded"
           />
         </Stack>
       </div>
       <br />
-      {loading && (
-        <ReactLoading
-          style={{ margin: "10px auto", height: "100px", width: "50px" }}
-          type={"cylon"}
-          color={"black"}
-          height={100}
-          width={50}
-        />
-      )}
       <div align="center">
         <Button variant="contained" color="primary">
           <Link

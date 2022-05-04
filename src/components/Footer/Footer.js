@@ -35,7 +35,7 @@ const Footer = () => {
             justifyContent: "center",
           }}
         >
-          {new Date().getFullYear()} © Local.mv - All Rights Reserved
+          {new Date().getFullYear()} © Littus automobiles - All Rights Reserved
         </div>
       </footer>
     </div>

@@ -8,12 +8,13 @@ import { toast } from "react-toastify";
 
 export default function AddNewItem() {
   const [user] = useAuthState(auth);
-  const handleAddNewItem = (e) => {
+
+  const handleAddNewItem = async (e) => {
     e.preventDefault();
     let name = e.target.name.value;
     let email = user.email;
     let price = e.target.price.value;
-    let quantity = e.target.quantity.value;
+    let quantity = parseInt(e.target.quantity.value);
     let img = e.target.imageURL.value;
     let description = e.target.description.value;
     let sepliarName = e.target.sepliarName.value;
@@ -27,7 +28,9 @@ export default function AddNewItem() {
       sepliarName,
     };
     if (name && price && description && img && sepliarName && quantity) {
-      fetch("https://aqueous-harbor-59183.herokuapp.com/product", {
+      let url = `https://aqueous-harbor-59183.herokuapp.com/useritem`;
+      let url1 = `https://aqueous-harbor-59183.herokuapp.com/product`;
+      await fetch(url, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -39,10 +42,23 @@ export default function AddNewItem() {
           toast.success("Item added successfully done");
           e.target.reset();
         });
+      await fetch(url1, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(newProduct),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          // toast.success("Item added successfully done");
+          // e.target.reset();
+        });
     } else {
-      toast.error("Please a valid input");
+      toast.error("Please Provide  valid input");
     }
   };
+
   return (
     <div align="center">
       <h1>Add New Item</h1>

@@ -9,10 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReactLoading from "react-loading";
+import axios from "axios";
 
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -27,7 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
+  "&:nth-of-type(o//dd)": {
     backgroundColor: theme.palette.action.hover,
   },
   // hide last border
@@ -40,42 +41,58 @@ export default function MyItems() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = React.useState(true);
   const [user] = useAuthState(auth);
-  useEffect(() => {
-    let loginuserEmail = user.email;
-    fetch("https://aqueous-harbor-59183.herokuapp.com/product")
-      .then((res) => res.json())
-      .then((data) => {
-        let findUserProduct = data.filter(
-          (product) => product.email == loginuserEmail
-        );
-        setProducts(findUserProduct);
-        setLoading(false);
-      });
-  }, []);
-  //   remove items from
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const getitems = async () => {
+      let loginuserEmail = user.email;
+      let url = `https://aqueous-harbor-59183.herokuapp.com/useritem`;
+      try {
+        const { data } = await axios.get(`${url}?email=${loginuserEmail}`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+        setProducts(data);
+        setLoading(false);
+      } catch (error) {
+        if (error.response.status === 403 || error.response.status === 401) {
+          navigate("/login");
+        }
+      }
+    };
+
+    getitems();
+  }, [user]);
+
+  //   remove items from
   const removeItem = (id) => {
     let confirmDialog = window.confirm(
       "Are you sure you want to remove this item?"
     );
     if (confirmDialog) {
-      fetch(`https://aqueous-harbor-59183.herokuapp.com/product/${id}`, {
+      const url = `https://aqueous-harbor-59183.herokuapp.com/userItem/${id}`;
+      fetch(url, {
         method: "DELETE",
       })
         .then((res) => res.json())
         .then((data) => {
           const remaining = products.filter((product) => product._id !== id);
           setProducts(remaining);
+          console.log(products);
+
           let findDeleteStudent = products.find((student) => student._id == id);
           toast.error(`${findDeleteStudent.name} has been deleted`);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     }
   };
-
   return (
     <>
       {" "}
-      <h1 align="center">Manage Your Products</h1>
+      <h1 align="center">Your added all items here</h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 300 }} aria-label="customized table">
           <TableHead>

@@ -30,6 +30,7 @@ export default function Login() {
   const [signInWithGoogle, guser, gloading, gerror] = useSignInWithGoogle(auth);
   const [sendPasswordResetEmail, sending, resetError] =
     useSendPasswordResetEmail(auth);
+
   const [email, setEmail] = React.useState("");
   let navigate = useNavigate();
   let location = useLocation();
@@ -54,9 +55,10 @@ export default function Login() {
     let email = event.target.email.value;
     await signInWithEmailAndPassword(email, pass);
     const { data } = await axios.post("http://localhost:5000/login", { email });
-    localStorage.setItem("accessToken", data);
+    localStorage.setItem("accessToken", data.accessToken);
     console.log(data);
   };
+
   // google singin
   const singinWithGoogle = () => {
     signInWithGoogle();

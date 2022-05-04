@@ -21,6 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function Home() {
   let theme = createTheme();
+
   theme = responsiveFontSizes(theme);
   return (
     <div
