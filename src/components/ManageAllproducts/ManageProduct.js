@@ -38,32 +38,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function ManageProduct() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [pageCount, setPageCount] = useState(1);
-  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
+  const [page, setPage] = useState(0);
   useEffect(() => {
-    let url = `https://aqueous-harbor-59183.herokuapp.com/product?page=${page}`;
+    let url = `https://aqueous-harbor-59183.herokuapp.com/manageItem?page=${page}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setProducts(data);
         setLoading(false);
       });
   }, [page]);
-
   useEffect(() => {
     fetch("https://aqueous-harbor-59183.herokuapp.com/productCount")
       .then((res) => res.json())
       .then((data) => {
         let pages = data.count;
-        setPageCount(Math.ceil(pages / 2));
+        setPageCount(Math.floor(pages / 5));
       });
   }, []);
-
   // pagination handler
-  // const handleChange = (event, value) => {
-  //   setPage(value);
-  //   console.log(event);
-  // };
+  const handleChange = (event, value) => {
+    setPage(value);
+    console.log(event);
+  };
 
   //   remove items from
   const removeItem = async (id) => {
@@ -136,9 +135,9 @@ export default function ManageProduct() {
         <br />
         <Stack spacing={2}>
           <Pagination
-            onClick={(e) => setPage(e.target.textContent)}
-            // page={page}
-            // onChange={handleChange}
+            // onClick={(e) => setPage(e.target.textContent)}
+            page={page}
+            onChange={handleChange}
             count={pageCount}
             shape="rounded"
           />

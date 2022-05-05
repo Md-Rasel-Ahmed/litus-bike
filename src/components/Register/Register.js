@@ -6,7 +6,6 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import GoogleIcon from "@mui/icons-material/Google";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -30,6 +29,7 @@ export default function Register() {
   const [sendEmailVerification] = useSendEmailVerification(auth);
 
   const [passError, setPassError] = React.useState("");
+  const [termsAccept, setTermsAccept] = React.useState(true);
   const navigate = useNavigate();
   let from = window.location.state?.from?.pathname || "/";
 
@@ -142,6 +142,7 @@ export default function Register() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
+                  onChange={(e) => setTermsAccept(!termsAccept)}
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
@@ -151,6 +152,7 @@ export default function Register() {
             </Grid>
             <Button
               type="submit"
+              disabled={termsAccept}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
@@ -167,7 +169,10 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <a onClick={() => navigate("/login")}>
+                <a
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/login")}
+                >
                   Already have an account? Sign in
                 </a>
               </Grid>

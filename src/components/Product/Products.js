@@ -16,7 +16,8 @@ export default function Products() {
   const [products, setProducts] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
-    fetch("https://aqueous-harbor-59183.herokuapp.com/product")
+    const url = "https://aqueous-harbor-59183.herokuapp.com/product";
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -51,7 +52,7 @@ export default function Products() {
         <Grid container spacing={2}>
           {products?.slice(0, 6).map((product) => {
             return (
-              <Grid item xs={12} lg={4} md={4} sm={12}>
+              <Grid key={product._id} item xs={12} lg={4} md={6} sm={12}>
                 <Card sx={{ maxWidth: 345, margin: "auto" }}>
                   <CardMedia
                     component="img"

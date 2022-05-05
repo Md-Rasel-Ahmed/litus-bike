@@ -56,15 +56,18 @@ export default function MyItems() {
         setProducts(data);
         setLoading(false);
       } catch (error) {
+        console.log(error);
         if (error.response.status === 403 || error.response.status === 401) {
           navigate("/login");
+        }
+        if (error.message === "Network Error") {
+          window.location.reload();
         }
       }
     };
 
     getitems();
   }, [user]);
-
   //   remove items from
   const removeItem = (id) => {
     let confirmDialog = window.confirm(
@@ -84,9 +87,7 @@ export default function MyItems() {
           let findDeleteStudent = products.find((student) => student._id == id);
           toast.error(`${findDeleteStudent.name} has been deleted`);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {});
     }
   };
   return (
@@ -104,28 +105,35 @@ export default function MyItems() {
               <StyledTableCell align="right">Delete</StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {products?.map((row) => (
-              <StyledTableRow key={row._id}>
-                <StyledTableCell align="right">{row.name}</StyledTableCell>
-                <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.sepliarName}
-                </StyledTableCell>
-                <StyledTableCell
-                  onClick={() => removeItem(row._id)}
-                  align="right"
-                >
-                  <Button variant="text" color="error">
-                    <DeleteIcon />
-                  </Button>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
+          {!loading && (
+            <TableBody>
+              {products?.map((row) => (
+                <StyledTableRow key={row._id}>
+                  <StyledTableCell align="right">{row.name}</StyledTableCell>
+                  <StyledTableCell align="right">{row.price}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.quantity}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.sepliarName}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    onClick={() => removeItem(row._id)}
+                    align="right"
+                  >
+                    <Button variant="text" color="error">
+                      <DeleteIcon />
+                    </Button>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
+      {!loading && (
+        <h1 align="center">{!products.length > 0 && "Emty Items"}</h1>
+      )}
       <br />
       {loading && (
         <ReactLoading

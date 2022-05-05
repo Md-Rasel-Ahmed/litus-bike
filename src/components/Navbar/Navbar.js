@@ -15,12 +15,20 @@ import logo from "../../img/LA-logo-2-1170x435.png";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 
 import auth from "../../firebase.init";
 import { Link, useNavigate } from "react-router-dom";
 
 const pages = ["HOME", "ABOUT US", "BLOG", "WHAT WE DO", "CONTACT US"];
-const settings = ["Manage Item", "Add Item", "My Item", "Dashboard", "Logout"];
+const settings = [
+  "Manage Item",
+  "Manage Item",
+  "Add Item",
+  "My Item",
+  "Dashboard",
+  "Logout",
+];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -131,7 +139,11 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-
+          <Link to="/">
+            <FavoriteOutlinedIcon
+              style={{ color: "red", marginRight: "4px" }}
+            />
+          </Link>
           {user?.email ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">

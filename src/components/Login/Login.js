@@ -54,7 +54,10 @@ export default function Login() {
     let pass = event.target.password.value;
     let email = event.target.email.value;
     await signInWithEmailAndPassword(email, pass);
-    const { data } = await axios.post("http://localhost:5000/login", { email });
+    const { data } = await axios.post(
+      "https://aqueous-harbor-59183.herokuapp.com/login",
+      { email }
+    );
     localStorage.setItem("accessToken", data.accessToken);
     console.log(data);
   };
@@ -132,6 +135,7 @@ export default function Login() {
             <Grid container>
               <Grid item xs>
                 <Link
+                  style={{ cursor: "pointer" }}
                   onClick={() => {
                     sendPasswordResetEmail(email);
                   }}
@@ -141,7 +145,11 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link onClick={() => navigate("/register")} variant="body2">
+                <Link
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/register")}
+                  variant="body2"
+                >
                   Don't have an account? Sign
                 </Link>
               </Grid>
