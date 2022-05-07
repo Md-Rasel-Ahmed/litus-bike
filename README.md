@@ -1,4 +1,4 @@
-# Littus AutoMobiles
+# Littus Bike Shop
 
 Project live link (https://stored-bike-warehous.web.app)
 
