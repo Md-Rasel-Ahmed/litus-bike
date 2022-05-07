@@ -19,10 +19,9 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 
 import auth from "../../firebase.init";
 import { Link, useNavigate } from "react-router-dom";
-
-const pages = ["HOME", "ABOUT US", "BLOG", "WHAT WE DO", "CONTACT US"];
+const pages = ["", "HOME", "ABOUT US", "BLOG", "WHAT WE DO", "CONTACT US"];
 const settings = [
-  "Manage Item",
+  " ",
   "Manage Item",
   "Add Item",
   "My Item",
@@ -33,6 +32,7 @@ const settings = [
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [activeColor, setActiveColor] = React.useState("");
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const handleOpenNavMenu = (event) => {
@@ -139,7 +139,7 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-          <Link to="/">
+          <Link to="/userLikeItems">
             <FavoriteOutlinedIcon
               style={{ color: "red", marginRight: "4px" }}
             />

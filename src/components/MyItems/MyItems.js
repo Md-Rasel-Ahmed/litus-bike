@@ -115,7 +115,7 @@ export default function MyItems() {
                     {row.quantity}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {row.sepliarName}
+                    {row.SupplierName}
                   </StyledTableCell>
                   <StyledTableCell
                     onClick={() => removeItem(row._id)}

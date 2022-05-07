@@ -15,6 +15,7 @@ import MyItems from "./components/MyItems/MyItems";
 import NotFound from "./components/NotFound";
 import Blog from "./components/Blog/Blog";
 import Footer from "./components/Footer/Footer";
+import UserLikeItems from "./components/UserLikeItems/UserLikeItems";
 function App() {
   return (
     <div>
@@ -57,6 +58,10 @@ function App() {
           }
         ></Route>
         <Route path="/blog" element={<Blog></Blog>}></Route>
+        <Route
+          path="/userLikeItems"
+          element={<UserLikeItems></UserLikeItems>}
+        ></Route>
         <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
       <ToastContainer />

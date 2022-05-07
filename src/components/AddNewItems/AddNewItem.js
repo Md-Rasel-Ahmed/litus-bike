@@ -17,7 +17,7 @@ export default function AddNewItem() {
     let quantity = parseInt(e.target.quantity.value);
     let img = e.target.imageURL.value;
     let description = e.target.description.value;
-    let sepliarName = e.target.sepliarName.value;
+    let SupplierName = e.target.SupplierName.value;
     let newProduct = {
       name,
       price,
@@ -25,9 +25,9 @@ export default function AddNewItem() {
       quantity,
       img,
       description,
-      sepliarName,
+      SupplierName,
     };
-    if (name && price && description && img && sepliarName && quantity) {
+    if (name && price && description && img && SupplierName && quantity) {
       let url = `https://aqueous-harbor-59183.herokuapp.com/useritem`;
       let url1 = `https://aqueous-harbor-59183.herokuapp.com/product`;
       await fetch(url, {
@@ -104,8 +104,8 @@ export default function AddNewItem() {
         <br />
         <TextField
           id="standard-basic"
-          label="Supliar Name"
-          name="sepliarName"
+          label="Supplier Name"
+          name="SupplierName"
           type="text"
           variant="standard"
         />

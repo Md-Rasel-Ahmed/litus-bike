@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 import ReactLoading from "react-loading";
 
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = React.useState([]);
@@ -78,7 +78,7 @@ export default function Products() {
                     </Typography>
                     <Typography>
                       {" "}
-                      <strong>Supliar: {product.sepliarName}</strong>
+                      <strong>Supplier Name: {product.SupplierName}</strong>
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -96,6 +96,15 @@ export default function Products() {
             );
           })}
         </Grid>
+        <br />
+        <div align="center">
+          <Link
+            style={{ textDecoration: "none", color: "#1976D2" }}
+            to="/manageProduct"
+          >
+            <Button variant="contained"> Manage Products</Button>
+          </Link>
+        </div>
       </Box>
     </>
   );

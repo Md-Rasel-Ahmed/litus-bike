@@ -91,7 +91,7 @@ const ProductDetails = () => {
                 </Typography>
                 <Typography>
                   {" "}
-                  <strong>Supliar: {product?.sepliarName} </strong>
+                  <strong>Supplier Name: {product?.SupplierName} </strong>
                 </Typography>
                 <Typography>
                   {" "}
