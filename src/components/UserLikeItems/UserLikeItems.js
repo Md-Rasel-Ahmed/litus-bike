@@ -11,7 +11,7 @@ export default function UserLikeItems() {
   const [userLikesItems, setUserLikesItems] = React.useState([]);
   const [user] = useAuthState(auth);
   React.useEffect(() => {
-    fetch("http://localhost:5000/userLikeItems")
+    fetch("https://aqueous-harbor-59183.herokuapp.com/userLikeItems")
       .then((res) => res.json())
       .then((data) => {
         let userData = data.filter((item) => item.email === user.email);

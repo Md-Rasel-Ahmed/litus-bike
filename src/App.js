@@ -1,5 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import Navbar from "./components/Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Login from "./components/Login/Login";
@@ -15,8 +17,13 @@ import MyItems from "./components/MyItems/MyItems";
 import NotFound from "./components/NotFound";
 import Blog from "./components/Blog/Blog";
 import Footer from "./components/Footer/Footer";
+import MouseParticles from "react-mouse-particles";
 import UserLikeItems from "./components/UserLikeItems/UserLikeItems";
+import { useEffect } from "react";
 function App() {
+  useEffect(() => {
+    AOS.init();
+  }, []);
   return (
     <div>
       <Navbar></Navbar>
@@ -66,6 +73,7 @@ function App() {
       </Routes>
       <ToastContainer />
       <Footer></Footer>
+      <MouseParticles g={1} color="random" cull="col,image-wrapper" />
     </div>
   );
 }

@@ -53,7 +53,7 @@ export default function Products() {
           {products?.slice(0, 6).map((product) => {
             return (
               <Grid key={product._id} item xs={12} lg={4} md={6} sm={12}>
-                <Card sx={{ maxWidth: 345, margin: "auto" }}>
+                <Card data-aos="fade-up" sx={{ maxWidth: 345, margin: "auto" }}>
                   <CardMedia
                     component="img"
                     alt="green iguana"
